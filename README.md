@@ -41,7 +41,7 @@ Financial Loan Approval Dataset (from Kaggle)
 
 Clone repository:
 
-git clone https://github.com/your-username/responsible-ai-loan-bias-detector.git
+git clone https://github.com/Tanish-Gupta21/Responsible-AI-Loan-Bias-Detector.git
 
 
 Go to project folder:
