@@ -45,11 +45,12 @@ st.write(df.columns)
 df = df.drop_duplicates()
 
 for col in df.columns:
-    if df[col].dtype == "object":
-        df[col] = df[col].fillna(df[col].mode()[0])
-    else:
-        df[col] = pd.to_numeric(df[col], errors='coerce')  # convert to number
+    try:
+        df[col] = pd.to_numeric(df[col], errors='coerce')
         df[col] = df[col].fillna(df[col].median())
+    except:
+        df[col] = df[col].fillna(df[col].mode()[0])
+
 
 
 
@@ -57,6 +58,10 @@ st.write("Rows:", df.shape[0])
 st.write("Columns:", df.shape[1])
 
 st.subheader("Income vs Loan Approval")
+df['Income'] = pd.to_numeric(df['Income'], errors='coerce')
+df['Loan_Approved'] = pd.to_numeric(df['Loan_Approved'], errors='coerce')
+df = df.dropna(subset=['Income', 'Loan_Approved'])
+
 
 fig, ax = plt.subplots()
 df.boxplot(column='Income', by='Loan_Approved', ax=ax)
