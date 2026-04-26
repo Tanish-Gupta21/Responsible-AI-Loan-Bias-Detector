@@ -63,9 +63,28 @@ df['Loan_Approved'] = pd.to_numeric(df['Loan_Approved'], errors='coerce')
 df = df.dropna(subset=['Income', 'Loan_Approved'])
 
 
-fig, ax = plt.subplots()
-df.boxplot(column='Income', by='Loan_Approved', ax=ax)
-st.pyplot(fig)
+st.subheader("Income vs Loan Approval")
+
+# Column exist check
+if 'Income' in df.columns and 'Loan_Approved' in df.columns:
+
+    # Convert to numeric
+    df['Income'] = pd.to_numeric(df['Income'], errors='coerce')
+    df['Loan_Approved'] = pd.to_numeric(df['Loan_Approved'], errors='coerce')
+
+    # Remove null values
+    temp_df = df[['Income', 'Loan_Approved']].dropna()
+
+    if not temp_df.empty:
+        fig, ax = plt.subplots()
+        temp_df.boxplot(column='Income', by='Loan_Approved', ax=ax)
+        st.pyplot(fig)
+    else:
+        st.warning("Not enough data to plot")
+
+else:
+    st.error("Required columns not found")
+
 
 
 st.header("Automatic Bias Detection")
