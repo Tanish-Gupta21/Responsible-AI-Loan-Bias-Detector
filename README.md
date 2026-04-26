@@ -1,5 +1,8 @@
 # Responsible AI Loan Bias Detector
 
+ **Live Demo:**
+https://responsible-ai-loan-bias-detector-uwpcgpss2xzkikrzj4qwjp.streamlit.app/
+
 AI-powered system to detect and visualize bias in automated loan approval decisions.
 Built using Streamlit for the Google Solution Challenge under the Responsible AI theme.
 
