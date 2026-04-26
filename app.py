@@ -7,7 +7,7 @@ st.title("Problem Statement")
 st.header("Loan Approval Bias Detection Dashboard")
 
 def load_data():
-    df = pd.read_csv("Loan Dataset.csv")
+    df = pd.read_csv("loan_data.csv")
     return df
 
 df = load_data()
