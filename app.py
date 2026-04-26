@@ -48,7 +48,9 @@ for col in df.columns:
     if df[col].dtype == "object":
         df[col] = df[col].fillna(df[col].mode()[0])
     else:
+        df[col] = pd.to_numeric(df[col], errors='coerce')  # convert to number
         df[col] = df[col].fillna(df[col].median())
+
 
 
 st.write("Rows:", df.shape[0])
