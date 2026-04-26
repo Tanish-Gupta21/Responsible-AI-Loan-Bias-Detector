@@ -91,14 +91,39 @@ st.header("Automatic Bias Detection")
 
 target = "Loan_Approved"
 
-categorical_cols = df.select_dtypes(include="object").columns.tolist()
+target = "Loan_Approved"
 
+# Only keep categorical columns safely
+categorical_cols = df.select_dtypes(include=['object', 'category']).columns.tolist()
 
+# Remove target if present
 categorical_cols = [c for c in categorical_cols if c != target]
 
-selected_col = st.selectbox("Select column for bias check", categorical_cols)
+if len(categorical_cols) > 0:
+    selected_col = st.selectbox("Select column for bias check", categorical_cols)
 
-bias = pd.crosstab(df[selected_col], df[target], normalize='index')
+    if selected_col in df.columns and target in df.columns:
+        temp_df = df[[selected_col, target]].dropna()
+
+        if not temp_df.empty:
+            bias = pd.crosstab(temp_df[selected_col], temp_df[target], normalize='index')
+
+            fig, ax = plt.subplots()
+            bias.plot(kind='bar', ax=ax)
+            st.pyplot(fig)
+
+            # Fairness score
+            if 1 in bias.columns:
+                approval_rates = bias[1]
+            else:
+                approval_rates = bias.iloc[:, -1]
+
+            fairness = 1 - (approval_rates.max() - approval_rates.min())
+            st.success(f"Fairness Score: {round(fairness*100,2)} %")
+        else:
+            st.warning("Not enough data for bias analysis")
+else:
+    st.warning("No categorical columns available for bias detection")
 
 fig, ax = plt.subplots()
 bias.plot(kind='bar', ax=ax)
